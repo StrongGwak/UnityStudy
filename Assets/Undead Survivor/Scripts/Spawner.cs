@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            GameManager.instance.pool.Get(1);
+            GameManager.instance.pool.Get(0);
         }
     }
 }
