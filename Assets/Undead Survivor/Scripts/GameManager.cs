@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public float gameTime;
     public float maxGameTime = 2 * 10f;
     [Header("# Player Info")]
+    public int playerId;
     public float health;
     public float maxHealth = 100;
     public int level;
@@ -29,12 +30,17 @@ public class GameManager : MonoBehaviour
         instance = this;    
     }
 
-    public void GameStart()
+    public void GameStart(int id)
     {
+        playerId = id;
         health = maxHealth;
-        uiLevelUp.Select(0); // 임시 스크립트 (임시 무기 생성)
+        player.gameObject.SetActive(true);
+        uiLevelUp.Select(playerId % 2);
         isLive = true;
         Resume();
+
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
     public void GameOver()
@@ -51,11 +57,17 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();
+
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
     }
 
     public void GameVictory()
     {
         StartCoroutine(GameVictoryRoutine());
+
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
     }
 
     IEnumerator GameVictoryRoutine()
@@ -73,6 +85,7 @@ public class GameManager : MonoBehaviour
     public void GameRetry()
     {
         SceneManager.LoadScene(0);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
     private void Update()
