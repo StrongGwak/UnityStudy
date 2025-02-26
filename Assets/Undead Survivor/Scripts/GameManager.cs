@@ -23,11 +23,13 @@ public class GameManager : MonoBehaviour
     public PoolManager pool;
     public LevelUp uiLevelUp;
     public Result uiResult;
+    public Transform uiJoy;
     public GameObject enemyCleaner;
 
     void Awake()
     {
-        instance = this;    
+        instance = this;
+        Application.targetFrameRate = 60;
     }
 
     public void GameStart(int id)
@@ -88,6 +90,11 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
+    public void GameQuit()
+    {
+        Application.Quit();
+    }
+
     private void Update()
     {
         if (!isLive)
@@ -127,11 +134,14 @@ public class GameManager : MonoBehaviour
         // 유니티 시간 배율
         // 모바일 게임 빠른 전투 같은 경우 해당 수치를 올리는 것.
         Time.timeScale = 0;
+        uiJoy.localScale = Vector3.zero;
     }
 
     public void Resume()
     {
         isLive = true;
         Time.timeScale = 1;
+        uiJoy.localScale = Vector3.one;
     }
+
 }
