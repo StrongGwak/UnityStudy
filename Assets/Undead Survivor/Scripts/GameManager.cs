@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // 싱글턴 패턴을 위한 인스턴스 생성
     public static GameManager instance;
     // 인스펙터에서 카테고리를 넣는 효과
     [Header("# Game Control")]
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        // 인스턴스 할당
         instance = this;
         Application.targetFrameRate = 60;
     }
